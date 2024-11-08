@@ -13,14 +13,6 @@ I also want to reiterate the dataset and the lack of data that is out there. Luc
 
 ## Part 2
 
-Prepare a short description of a database that you acquired (no need to upload an actual database into GitHub or Google Drive). Push the report (under "Part 2" section in your readme.md) to your semester project repo by the deadline. Include these elements into your report:
-
-    source (download link and associated paper(s) offering the dataset(s))
-    differences between the train and validation subsets, which you think are important from your project point of view
-    number of distinct objects/subjects represented in the data, number of samples per object/subject (if applies)
-    brief characterization of samples: resolution, sensors used, illumination wavelength, ambient conditions, etc. (whichever applies)
-
-
 I've acquired two datasets for usage, each with 300 images in each dataset [here](https://universe.roboflow.com/034-ganesh-kumar-m-v-cs-r2lwe/basketball-lhqoe/dataset/1) and [here](https://universe.roboflow.com/rodney-virtualassistant-gmail-com/basketball-annotation-project/dataset/2). These datasets together will give me a fair amount of data to train on just two different objects, a basketball and a basketball hoop. I think both the training and validation subsets are important, but the training is probably more important as I'll want to be able to train my neural network's weights.
 
 These pictures are sometimes captured by camera or were found on the internet, most of them are in daytime ambient conditions or without any color interference with the background. The resolution varies from picture to picture, but is strong enough to determine/decipher a basketball and basketball hoop.
