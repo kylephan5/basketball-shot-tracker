@@ -26,12 +26,15 @@ I performed transfer learning on a YOLOv7 model in order to detect my two classe
 In addition, because I only needed to detect two objects, a dataset of 300 items is sufficient since some of these items also have overlaps. Furthermore, I will soon use these objects and the position of them at various frames to perform a linear regression to find the intersection point between a point above and below the rim. This would make me need to find the orange rim and make that the plane of intersection for points above and below.
 
 ![Basketball Detect](images/basketball_detect.png)
+
 Image of basketball detection
 
 ![Basketball Hoop Detect](images/basketball_hoop_detect.png)
+
 Image of basketball hoop detection
 
 ![Validation](images/validation.png)
+
 Validation Set with some key metrics
 
 Here are a few results from my training. As you can see, it does a pretty good job detecting basketball and basketball hoops with relatively high confidence. Because of this, it seems as if my project has done an adequate job of detecting the necessary objects. It seems like some instances of basketball might be missed with a relatively low R value, which means I might want to lower the confidence threshold in order to help the model detect more objects. This also comes with the tradeoff of possibly identifying more false positives, which is also not a great thing. I could also try training with more data, which would allow for detection of more basketballs. However, of the two datasets I found, I found that a lot of the pictures and labelling overlapped, meaning most of these pictures are the same pictures.
