@@ -17,22 +17,14 @@ class ShotDetector:
     def detect_make(self, rim_height, rim_width, center_x, center_y, last_frame_x, last_frame_y):
         # close to hoop, falling, and passed the rim
         if center_y > rim_height > last_frame_y[-1]:
-            print('detecting...')
             m = (center_y - last_frame_y[-1]) / (center_x - last_frame_x[-1])
             x_target = ((rim_height - last_frame_y[-1]) / m) + last_frame_x[-1]
 
-            print(last_frame_x, last_frame_y)
-            print(center_x, center_y)
-            print(m, x_target)
-            print(rim_width, rim_height)
-
             if rim_width[0] < x_target < rim_width[1]:
                 self.makes += 1
-                print('make!')
                 self.draw_make = True
                 self.start_time_draw_make = time.time()
-            else:
-                print('miss')
+
             self.total_shots += 1
 
     def draw_hoop(self, frame, detections):
