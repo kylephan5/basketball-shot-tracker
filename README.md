@@ -61,5 +61,7 @@ Here's an example of a video:
 
 [![Watch the video](https://youtube.com/shorts/rcOUvOfUxEA?feature=share)](https://youtube.com/shorts/rcOUvOfUxEA?feature=share)
 
-This video does a good job of showing the miss and makes, and how my program works. The blue dot follows the basketball object and will focus on the object as it moves through the air, registering the values and ensuring that when we see the ball fall close to the basket, that we are possibly detecting a shot.
+This video does a good job of showing the miss and makes, and how my program works. The blue dot follows the basketball object and will focus on the object as it moves through the air, registering the values and ensuring that when we see the ball fall close to the basket, that we are possibly detecting a shot. As you can see, the shot rises in the air, falls through the hoop, at which point the blue dot travels and finds a point below. One of the problems that I was running in to was if the ball was rolling around the rim, where it would count as multiple tries since it possibly would go from above to below the rim multiple times.
+
+This is something that I will try to improve before final testing. I saw relatively good accuracy in my training set, and also when I uploaded a random video, I saw good results as well.
 
