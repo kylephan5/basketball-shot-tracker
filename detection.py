@@ -13,19 +13,22 @@ class ShotDetector:
         self.start_time_draw_make = 0
         self.draw_make = False
         self.hoop_detected = False
+        self.cooldown = False
+        self.cooldown_timer = 0
 
     def detect_make(self, rim_height, rim_width, center_x, center_y, last_frame_x, last_frame_y):
         # close to hoop, falling, and passed the rim
-        if center_y > rim_height > last_frame_y[-1]:
-            m = (center_y - last_frame_y[-1]) / (center_x - last_frame_x[-1])
-            x_target = ((rim_height - last_frame_y[-1]) / m) + last_frame_x[-1]
+        self.cooldown = True
+        self.cooldown_timer = time.time()
+        m = (center_y - last_frame_y[-1]) / (center_x - last_frame_x[-1])
+        x_target = ((rim_height - last_frame_y[-1]) / m) + last_frame_x[-1]
 
-            if rim_width[0] < x_target < rim_width[1]:
-                self.makes += 1
-                self.draw_make = True
-                self.start_time_draw_make = time.time()
+        if rim_width[0] < x_target < rim_width[1]:
+            self.makes += 1
+            self.draw_make = True
+            self.start_time_draw_make = time.time()
 
-            self.total_shots += 1
+        self.total_shots += 1
 
     def draw_hoop(self, frame, detections):
         found = False
@@ -95,7 +98,7 @@ class ShotDetector:
                     center_x = x + w // 2
                     center_y = y + h // 2
                     if center_y > last_frame_y[-1]:
-                        if close_to_hoop(rim_height, rim_width, center_x, center_y):
+                        if close_to_hoop(rim_height, rim_width, center_x, center_y) and center_y > rim_height > last_frame_y[-1] and not self.cooldown:
                             self.detect_make(rim_height, rim_width, center_x, center_y, last_frame_x, last_frame_y)
 
                     cv2.circle(frame, (int(center_x), int(center_y)), 15, (255, 0, 0), -1)
@@ -111,6 +114,10 @@ class ShotDetector:
                 cv2.putText(frame, "$", ((rim_width[0] + rim_width[1]) // 2, rim_height - 100), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 3, cv2.LINE_AA)
                 if time.time() - self.start_time_draw_make > 2:
                     self.draw_make = False
+
+            if self.cooldown:
+                if time.time() - self.cooldown_timer > 2:
+                    self.cooldown = False
 
             frame_count += 1
             cv2.putText(frame, f'{self.makes} / {self.total_shots}', (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 255, 255), 5)
