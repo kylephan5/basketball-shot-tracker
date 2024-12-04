@@ -43,7 +43,7 @@ class ShotDetector:
         return found
 
     def start(self):
-        cap = cv2.VideoCapture(1)
+        cap = cv2.VideoCapture('video.mp4')
 
         tracker = None
         tracking = False
@@ -90,15 +90,13 @@ class ShotDetector:
                 success, track_bbox = tracker.update(frame)
                 if success:
                     x, y, w, h = map(int, track_bbox)
-                    # if basketball goes off frame, stop tracking
-                    # if x < 0 or y < 0 or x + w > frame_width or y + h > frame_height:
-                    #     tracking = False
-                    #     continue
 
                     center_x = x + w // 2
                     center_y = y + h // 2
                     if center_y > last_frame_y[-1]:
-                        if close_to_hoop(rim_height, rim_width, center_x, center_y) and center_y > rim_height > last_frame_y[-1] and not self.cooldown:
+                        if (close_to_hoop(rim_height, rim_width, center_x, center_y) and
+                                center_y > rim_height > last_frame_y[-1] and
+                                not self.cooldown):
                             self.detect_make(rim_height, rim_width, center_x, center_y, last_frame_x, last_frame_y)
 
                     cv2.circle(frame, (int(center_x), int(center_y)), 15, (255, 0, 0), -1)
