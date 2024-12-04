@@ -1,6 +1,34 @@
 # basketball-shot-tracker
 cv application that tracks basketball shots as makes or misses
 
+## Instructions to Run
+
+1. Clone repository from terminal
+
+`git clone https://github.com/kylephan5/basketball-shot-tracker.git`
+
+2. cd into repository
+
+`cd basketball-shot-tracker`
+
+4. Create virtual environment
+
+`python3 -m venv virtualenv`
+
+`source virtualenv/bin/activate`
+
+3. Install requirements
+
+`pip install -r requirements.txt`
+
+4. Clone YOLOv7
+
+`git clone https://github.com/WongKinYiu/yolov7.git`
+
+6. Run program
+
+`python3 main.py`
+
 ## Description of Project
 
 This project aims to track basketball shots as makes or misses, and will offer you a percentage based on how many shots it detects. From a high level, I'll need to run a training set on various basketball hoops and basketball so that my live videostream will be able to pick up the hoop and the basketball in real time. Looking for a dataset will be challenging, but I've found one [here](https://universe.roboflow.com/034-ganesh-kumar-m-v-cs-r2lwe/basketball-lhqoe/dataset/1/images). This dataset provides me with three hundred images, partitioned into 70/20/10 splits. These splits will be useful as we train our model on this dataset to detect for basketball hoop and basketballs.
