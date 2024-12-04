@@ -59,4 +59,4 @@ On the other hand, it does a really good job of detecting most* makes!
 
 Here's an example of a video:
 
-![Basketball Detect](videos/validation_video.mp4)
+[![Watch the video](https://img.youtube.com/vi/<VIDEO_ID>/0.jpg)](https://www.youtube.com/watch?v=<VIDEO_ID>)
