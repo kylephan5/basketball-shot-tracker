@@ -59,4 +59,7 @@ On the other hand, it does a really good job of detecting most* makes!
 
 Here's an example of a video:
 
-[![Watch the video](https://img.youtube.com/vi/<VIDEO_ID>/0.jpg)](https://www.youtube.com/watch?v=<VIDEO_ID>)
+[![Watch the video](https://youtube.com/shorts/rcOUvOfUxEA?feature=share)](https://youtube.com/shorts/rcOUvOfUxEA?feature=share)
+
+This video does a good job of showing the miss and makes, and how my program works. The blue dot follows the basketball object and will focus on the object as it moves through the air, registering the values and ensuring that when we see the ball fall close to the basket, that we are possibly detecting a shot.
+
