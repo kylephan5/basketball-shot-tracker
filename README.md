@@ -58,3 +58,5 @@ The other error that I missed was because the ball spun around the hoop, and the
 On the other hand, it does a really good job of detecting most* makes!
 
 Here's an example of a video:
+
+![Basketball Detect](videos/validation_video.mp4)
