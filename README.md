@@ -95,15 +95,6 @@ This is something that I will try to improve before final testing. I saw relativ
 
 ## Part 5
 
-
-    A report (no page limit, but try to be concise; 1000-2000 words should suffice) as a separate (from Parts 1, 2, 3 and 4) section of the readme.md in your GitHub that includes
-        Description of the test database you collected or downloaded: What is the size of the database? What is different when compared to the training and validation subsets? Why you believe these differences are sufficient to test your final programs? (1 points)
-        A classification accuracy achieved on the test set. Use the same metrics as in previous phase. (2 points)
-        Most of you should see worse results on the test set when compared to the results obtained on train/validation sets. You should not be worried about that, but please provide the reasons why your solution performs worse (with a few illustrations, such as pictures or videos, what went wrong). What improvements would you propose to lower the observed error rates? (2 points)
-        For teams: explain individual contributions of each team member (this is needed to have this assignment graded).
-    Imagine you want to present your final program to a friend or investor. And this presentation should be short and illustrative (that is: show what you did and how good it is). Prepare a short video, or a short slideshow with pictures, presenting how your final program works. Here are good examples prepared by former CV students. (2 points)
-    Push your final (to be graded) codes along with instructions how to run them (either Adam or TAs will do it to see how the final solution works on test data). Your program(s) should pick one example from the test set (please attach this sample to your codes) and present the processing result. We should be able to run your programs without any edits -- please double check before submission that the codes are complete. (3 points)
-
 To test my application with real data, I visited Duncan Student Center to shoot a few basketballs into real life sized hoops. I saw a bit of a dropoff in terms of the effectiveness as a result of my camera's inability to capture the basketball movement at a high enough frame rate. Going forward, it would be good to use some sort of external camera (Iriun Webcam) that will allow me to process more frames per second and allow my program to track the basketball better. I was able to produce working examples
 
 [![Miss](https://youtube.com/shorts/lu8soalEZcQ?feature=share)](https://youtube.com/shorts/lu8soalEZcQ?feature=share)
@@ -114,5 +105,6 @@ These two examples provide us with real life and real world applications of this
 I got a classification accuracy of around 67%. One of the basketballs was unable to track as it fell through the hoop, which I attest to my camera not registering enough frames per second and my tracker algorithm (CSRT) losing the basketball. In addition, if the basketball is moving too fast, the basketball is lost. To lower the observed error rates, I would make sure that my camera has higher frame rates and can track the basketball with more precision, as I think for much of the time, the tracker does a somewhat decent job, but not with the accuracy that is needed to make the application have a high classification accuracy. 
 
 [![Presentation](https://docs.google.com/presentation/d/1UjvRnOYQQPYd9JGOnPkPOt4tH3_TgV6KXzhMxwBRSfQ/edit?usp=sharing)](https://docs.google.com/presentation/d/1UjvRnOYQQPYd9JGOnPkPOt4tH3_TgV6KXzhMxwBRSfQ/edit?usp=sharing)
+
 
 
