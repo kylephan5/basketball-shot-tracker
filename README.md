@@ -1,6 +1,34 @@
 # basketball-shot-tracker
 cv application that tracks basketball shots as makes or misses
 
+## Instructions to Run
+
+1. Clone repository from terminal
+
+`git clone https://github.com/kylephan5/basketball-shot-tracker.git`
+
+2. cd into repository
+
+`cd basketball-shot-tracker`
+
+4. Create virtual environment
+
+`python3 -m venv virtualenv`
+
+`source virtualenv/bin/activate`
+
+3. Install requirements
+
+`pip install -r requirements.txt`
+
+4. Clone YOLOv7
+
+`git clone https://github.com/WongKinYiu/yolov7.git`
+
+6. Run program
+
+`python3 main.py`
+
 ## Description of Project
 
 This project aims to track basketball shots as makes or misses, and will offer you a percentage based on how many shots it detects. From a high level, I'll need to run a training set on various basketball hoops and basketball so that my live videostream will be able to pick up the hoop and the basketball in real time. Looking for a dataset will be challenging, but I've found one [here](https://universe.roboflow.com/034-ganesh-kumar-m-v-cs-r2lwe/basketball-lhqoe/dataset/1/images). This dataset provides me with three hundred images, partitioned into 70/20/10 splits. These splits will be useful as we train our model on this dataset to detect for basketball hoop and basketballs.
@@ -42,3 +70,43 @@ Here are a few results from my training. As you can see, it does a pretty good j
 I think going forward, this will do a pretty good job of detecting what I need to detect for my algorithm. I don’t need the points to be the exact point below the exact point above, as the general trajectory of the basketball is the more important aspect here rather than the precision of a specific point. Beyond this, I think my algorithm might struggle if a miss is straight on. The best way to counteract this problem would be to implement an additional camera on the side that gives me a peripheral view, and in order to deem it as a make, needs to fall within the bounds of the basketball hoop. Having a 2D view of this would be important. To extend this, we could also have it be 3D where I consider the Z axis with an aerial camera above the basket. However, I simply don’t have the facilities for something like this at the moment, and therefore a single camera setup will be sufficient in most cases.
 
 I have been in complete control of all parts of the software development cycle, from the dataset finding to the model selection to the transfer learning and lastly, to building the object detection algorithm. It’s pretty important for me to understand all aspects of the software development cycle and have the context in order for me to tackle the problems that may be asked of me in this project.
+
+## Part 4
+
+Picking a classifier was somewhat of an interesting decision. I decided to utilize YOLOv7 for my object detection model, which under the hood utilizes convolutional neural networks (CNNs) to perform classification on objects in images. Utilizing convolutional neural networks makes the most sense for my test case, since my application is primarily focused on object detection. YOLOv7 provides high accuracy while minimizing latency, which is pretty ideal for my application which focuses on live shot detection and tracking. Its ability to detect multiple objects simultaneously (basketball and basketball hoop) makes it an ideal candidate for my application. Leveraging a pre-trained model and transfer learning the model on my custom classes has been pretty solid. Given some more time, I likely would have trained it for longer, since the detection does work but could use some extra training time, since it's detecting some other spherical objects as basketballs (at a lower confidence value).
+
+Since part 3, I've also incorporated an object tracking algorithm in order to make it so that I can log additional points at a better rate. Utilizing CSRT has been the perfect balance for me. I've tried using MOSSE, but since it overdetects, it doesn't do a great job visually for my linear regression. Even though CSRT has relatively slow tracking speed, it does a good job of finding enough points where I can perform some sort of point slope analysis in order to find the point of intersection at rim height.
+
+I shot 25 shots, and kept track of the performance of each shot. It detected (make or miss) correctly 88% of the time, or 22/25 tries. For the 3 errant tries, I noticed why exactly they faltered. For one of the shots, the ball had left the frame. CSRT struggles with finding objects that move in and out of the frame, and so it makes sense that when the object does move out of the frame, CSRT loses the object and can no longer detect it. From here, the object is obscure and so therefore YOLO struggles with this. Improvements to this would be performing some sort of color segmentation. Converting the red/orange hue of the basketball into HSV and then finding contours would allow me to find specific basketball objects in it. However, this problem is easily solved by improving my hardware and getting a better performing camera that I can zoom out and have the basketball stay within the frame on the shot.
+
+The other situation that I noticed that could cause problems is if the shot misses directly short. In this situation, the basketball will simply drop right in front of the basketball, and based on my logic, will look like it went in. An easy fix to this would be to have two cameras, one straight on from the basket and one on the side. In order for a basket to be considered a make, it would have to pass the point slope test for both the lateral and the face on view. This would ensure that it fell somewhere through this 2D plane, and not just 1D.
+
+The other error that I missed was because the ball spun around the hoop, and the CSRT detected the ball as passing the rim even though it was not fully passed. I'm sure there is something that I can do here, possibly use the midpoint of the rim as the point of when to detect make. This would allow any of those that roll around the rim to not be detected until it comes out from under the basket.
+
+On the other hand, it does a really good job of detecting most* makes!
+
+Here's an example of a video:
+
+[![Watch the video](https://youtube.com/shorts/rcOUvOfUxEA?feature=share)](https://youtube.com/shorts/rcOUvOfUxEA?feature=share)
+
+This video does a good job of showing the miss and makes, and how my program works. The blue dot follows the basketball object and will focus on the object as it moves through the air, registering the values and ensuring that when we see the ball fall close to the basket, that we are possibly detecting a shot. As you can see, the shot rises in the air, falls through the hoop, at which point the blue dot travels and finds a point below. One of the problems that I was running in to was if the ball was rolling around the rim, where it would count as multiple tries since it possibly would go from above to below the rim multiple times.
+
+This is something that I will try to improve before final testing. I saw relatively good accuracy in my training set, and also when I uploaded a random video, I saw good results as well.
+
+## Part 5
+
+To test my application with real data, I visited Duncan Student Center to shoot a few basketballs into real life sized hoops. I saw a bit of a dropoff in terms of the effectiveness as a result of my camera's inability to capture the basketball movement at a high enough frame rate. Going forward, it would be good to use some sort of external camera (Iriun Webcam) that will allow me to process more frames per second and allow my program to track the basketball better. I was able to produce some working examples below:
+
+[![Miss](https://youtube.com/shorts/lu8soalEZcQ?feature=share)](https://youtube.com/shorts/lu8soalEZcQ?feature=share)
+[![Make](https://youtube.com/shorts/k-s14lma0WA?feature=share)](https://youtube.com/shorts/k-s14lma0WA?feature=share)
+
+These two examples provide us with real life and real world applications of this shot detection application. The test data that I collected was self-recorded and self-initiated, and the biggest difference as compared to the training and validation set was the fact that I was using real life sized basketballs and basketball hoops as opposed to the mini basketball and mini basketball hoop that is found in my dorm room. I believe these differences are sufficient because the real life sized basketball and basketball hoops are more on par with what I would see if I were to market this product to the public – most people would use a product like this for a real basketball and basketball hoop as opposed to a mini hoop. These differences are sufficient to test my final programs because much of the validation that shows the my program works and has basic function were performed on mini basketball hoops with mini basketballs. These allowed me to get relatively close to the camera and keep the basketball in the frame. The hard part about scaling this to a life size thing is that the basketball can get lost as it moves through the air, which is something worth noting as a reason for the possible drop off in detection accuracy.
+
+I got a classification accuracy of around 67%. I attempted a total of 9 shots, and all that were tracked were detected correctly. A few of the basketballs was unable to track as it fell through the hoop, which I attest to my camera not registering enough frames per second and my tracker algorithm (CSRT) losing the basketball. In addition, if the basketball is moving too fast, the basketball is lost, which goes hand in hand with the idea that the camera was not registering the basketball as it moved through the air with precision. To lower the observed error rates, I would make sure that my camera has higher frame rates and can track the basketball with more precision, as I think for much of the time, the tracker does a somewhat decent job, but not with the accuracy that is needed to make the application have a high classification accuracy.
+
+This presentation below is short and illustrates exactly what my program intends to do, and how I went about achieving my desired result.
+
+[![Presentation](https://docs.google.com/presentation/d/1UjvRnOYQQPYd9JGOnPkPOt4tH3_TgV6KXzhMxwBRSfQ/edit?usp=sharing)](https://docs.google.com/presentation/d/1UjvRnOYQQPYd9JGOnPkPOt4tH3_TgV6KXzhMxwBRSfQ/edit?usp=sharing)
+
+
+
