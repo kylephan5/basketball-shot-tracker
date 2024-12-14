@@ -43,7 +43,7 @@ class ShotDetector:
         return found
 
     def start(self):
-        cap = cv2.VideoCapture('videos/test_video.mp4')
+        cap = cv2.VideoCapture('videos/test_video2.mov')
 
         tracker = None
         tracking = False
